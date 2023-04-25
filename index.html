@@ -21,6 +21,8 @@ body {
   margin: 0;
   padding: 0;
 }
+
+
     </style>
   </head>
   <body>
@@ -54,14 +56,14 @@ async function initMap() {
         AdvancedMarkerView,PinView
     } = await google.maps.importLibrary("marker");
     const pinViewStyle = new PinView({
-                                        scale: 1.5,
+                                        scale: 5,
                                         background: "#1d249f",
                                         borderColor: "#4723d9",
                                         glyphColor: "white",
         });
     // The map, centered at Uluru
     map = new Map(document.getElementById("map_static_location"), {
-        zoom: 10,
+        zoom: 20,
         center: position,
         mapId: "DEMO_MAP_ID",
     });
@@ -71,9 +73,14 @@ async function initMap() {
         map: map,
         position: position,
         title: address,
-        content:pinViewStyle.content
+        content:pinViewStyle.element
 
     });
+    var infowindow = new google.maps.InfoWindow();
+    google.maps.event.addListener(marker,"click",()=>{
+        infowindow.setContent(address);
+        infowindow.open(map,marker)
+    })
 }
 fetch(url)
     .then(response => response.json())

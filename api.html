@@ -1,148 +1,252 @@
 <!DOCTYPE html>
-<html> 
-<head> 
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8" /> 
-  <title>Google Maps Multiple Markers</title> 
-<style>
-
-    *{
+<html>
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Google Maps Multiple Markers</title>
+    <style>
+      * {
         padding: 0;
         margin: 0;
-        
-    }
-    .container{
+      }
+      .container {
         position: relative;
         width: 100%;
         height: 100%;
-    }
-    #map{
+      }
+      #map {
         position: relative;
-    }
-#window{
-        position: absolute;
-        color: gray;
+      }
+      #window {
+        position: fixed;
+        color: rgb(0, 0, 0);
         z-index: 1000;
-        bottom: 4px;
+        bottom: 0px;
         width: 100%;
-        
-    }
-#window.show{
-    opacity: 1;
-    visibility: visible;
-}
-.place-name{
-    background-color: rgba(109, 109, 109, 0.5);
-    border-top-right-radius: 30px;
-    border-top-left-radius: 30px;
-    padding: 20px;
-    padding-top: 30px;
-    display: flex;
-    justify-content: start;
-    justify-items:center;
-    color:white;
+        font-size: 20px;
+        max-width: 100vw !important;
+      }
+      #window.show {
+        opacity: 1;
+        visibility: visible;
+      }
+      .place-name {
+        background-color: #2980b9;
+        border-top-right-radius: 30px;
+        border-top-left-radius: 30px;
+        padding: 30px 40px;
 
-    
-}
-.content{
-    position: relative;
-    display: none;
-    padding: 10px;
-    background-color: rgb(255, 255, 255);
-       padding: 20px;
-       opacity: 0;
-       visibility: hidden;
+        display: flex;
+        justify-content: start;
+        justify-items: center;
+        color: white;
+        max-width: 100vw !important;
+      }
+      .content {
+        position: relative;
+        display: none;
 
-}
-.content.show{
-    display: block;
-    opacity: 1;
-    visibility: visible;
-}
-.circle{
-    width: 40px;
- 
-    height: 40px;
-    background-color: red;
-    border-radius: 100%;
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    top: -20px;
-    right: 20px;
-}
-.circle i{
-    color: white;
-}
-.distance,.service-title,.service{
-    display: flex;
-    padding:5px 0;
-    justify-content: space-between;
-}
-.circle-subsidio{
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    
+        background-color: rgb(219, 219, 219);
+        padding-left: 40px;
+        padding-right: 40px;
+        padding-bottom: 20px !important;
+        padding-top: 10px !important;
 
-}
-.repeat{
-
-    width: 30px;
-    height: 30px;
-    background-color: rgb(21, 250, 21);
-    border-radius: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-left: 5px;
-}
-.repeat i{
-    font-size: 15px;
-    font-weight: bold;
-    color: white;
-}
-.circle-subsidio .title{
+        opacity: 0;
+        visibility: hidden;
+        max-width: 100vw !important;
+      }
+      .content.show {
+        display: block;
+        opacity: 1;
+        visibility: visible;
+      }
+      .circle {
+        width: 50px;
+        height: 50px;
+        background-color: red;
+        border-radius: 100%;
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        top: -35px;
+        right: 20px;
+      }
+      .circle i {
+        color: white;
+        font-size: 30px;
+      }
+      .distance,
+      .service-title,
+      .service {
+        display: flex;
+        padding: 5px 0;
+        justify-content: space-between;
+        font-size: 18px;
+      }
+      .circle-subsidio {
+        width: 30%;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .repeat {
+        width: 50px;
+        height: 50px;
+        background-color: #2980b9;
+        border-radius: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .repeat i {
+        font-size: 30px;
+        font-weight: bold;
+        color: white;
+      }
+      .circle-subsidio .title {
         padding-top: 10px;
         font-size: 14px;
-}
-.rounded{
-    padding: 5px 20px;
-    border-radius: 20px;
-    color: white;
-    font-weight: 400;
+      }
+      .rounded {
+        padding: 5px 20px;
+        border-radius: 20px;
+        color: white;
+        font-weight: 400;
+      }
+      .blue {
+        background-color: #2980b9;
+      }
+      .gray {
+        background-color: rgb(192, 191, 191);
+      }
 
-}
-.green{
-    background-color: rgb(74, 226, 74);
-}
-.gray{
-    background-color: rgb(192, 191, 191);
-}
-</style>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-</head> 
-<body>
-  <div class="container">
-    <div id="map" style="width:100vw;height:100vh;overflow-x:hidden;">
-    
-  </div>
-  <div id="window">
-      <section class="place-name">
-            
-      </section>
-      <section class="content">
+     /* .content div:not(.circle, .repeat),
+      span,
+      p {
+        font-size: 20px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+      } */
+
+      @media (min-width: 768px) {
+        .place-name {
+        padding: 5px 40px;
+      }
+      .content {
+       
+        padding-bottom: 5px !important;
+        padding-top: 5px !important;
+      }
+   
+      .circle {
+        width: 40px;
+        height: 40px;
         
-      </section>
-  </div>
-  </div>
-  
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/tinycolor/1.6.0/tinycolor.min.js" integrity="sha512-AvCfbOQzCVi2ctVWF4m89jLwTn/zVPJuS7rhiKyY3zqyCdbPqtvNa0I628GJqPytbowfFjkAGOpq85E5kQc40Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-   <script>(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})
-        ({key: "AIzaSyCDZJs6OkQK_MNILuHhO-PV2dWTr5H-6Y8", v: "beta"});
+        top: -20px;
+        right: 20px;
+      }
+      .circle i {
+        color: white;
+        font-size: 20px;
+      }
+      .distance,
+      .service-title,
+      .service {
+     
+        padding: 5px 0;
+     
+        font-size: 18px;
+      }
+      .circle-subsidio {
+        width: 30%;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .repeat {
+        width: 40px;
+        height: 40px;
+    
+      }
+      .repeat i {
+        font-size: 20px;
+        
+      }
+      
+      } 
+    </style>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <div
+        id="map"
+        style="width: 100vw; height: 100vh; overflow-x: hidden"
+      ></div>
+      <div id="window">
+        <section class="place-name"></section>
+        <section class="content">
+         
+        </section>
+      </div>
+    </div>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/tinycolor/1.6.0/tinycolor.min.js"
+      integrity="sha512-AvCfbOQzCVi2ctVWF4m89jLwTn/zVPJuS7rhiKyY3zqyCdbPqtvNa0I628GJqPytbowfFjkAGOpq85E5kQc40Q=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script>
+      ((g) => {
+        var h,
+          a,
+          k,
+          p = "The Google Maps JavaScript API",
+          c = "google",
+          l = "importLibrary",
+          q = "__ib__",
+          m = document,
+          b = window;
+        b = b[c] || (b[c] = {});
+        var d = b.maps || (b.maps = {}),
+          r = new Set(),
+          e = new URLSearchParams(),
+          u = () =>
+            h ||
+            (h = new Promise(async (f, n) => {
+              await (a = m.createElement("script"));
+              e.set("libraries", [...r] + "");
+              for (k in g)
+                e.set(
+                  k.replace(/[A-Z]/g, (t) => "_" + t[0].toLowerCase()),
+                  g[k]
+                );
+              e.set("callback", c + ".maps." + q);
+              a.src = `https://maps.${c}apis.com/maps/api/js?` + e;
+              d[q] = f;
+              a.onerror = () => (h = n(Error(p + " could not load.")));
+              a.nonce = m.querySelector("script[nonce]")?.nonce || "";
+              m.head.append(a);
+            }));
+        d[l]
+          ? console.warn(p + " only loads once. Ignoring:", g)
+          : (d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)));
+      })({ key: "AIzaSyCDZJs6OkQK_MNILuHhO-PV2dWTr5H-6Y8", v: "beta" });
     </script>
     <script src="index.js"></script>
- 
-</body>
+  </body>
 </html>
