@@ -285,6 +285,10 @@ async function init_map() {
         };
       })(marker, i)
     );
+    google.maps.event.addListener(map, 'click', function () {
+          content_div.classList.remove("show");
+    });
+
   }
 }
 init_map();
