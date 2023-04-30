@@ -1,9 +1,10 @@
 function haversine_distance(mk1, mk2) {
+ console.log(mk1.position)
   var R = 6371.071; // Radius of the Earth in miles
-  var rlat1 = mk1.position.lat() * (Math.PI / 180); // Convert degrees to radians
-  var rlat2 = mk2.position.lat() * (Math.PI / 180); // Convert degrees to radians
+  var rlat1 = mk1.position.h * (Math.PI / 180); // Convert degrees to radians
+  var rlat2 = mk2.position.h * (Math.PI / 180); // Convert degrees to radians
   var difflat = rlat2 - rlat1; // Radian difference (latitudes)
-  var difflon = (mk2.position.lng() - mk1.position.lng()) * (Math.PI / 180); // Radian difference (longitudes)
+  var difflon = (mk2.position.j - mk1.position.j) * (Math.PI / 180); // Radian difference (longitudes)
 
   var d =
     2 *
@@ -19,6 +20,7 @@ function haversine_distance(mk1, mk2) {
     );
   return d.toFixed(2);
 }
+
 // Define an array of material design colors
 // Define a base color in hex code format
 // Define an array of material design colors
@@ -184,7 +186,6 @@ async function init_map() {
     mapId: "DEMO_MAP_ID",
   });
   let base_marker = new AdvancedMarkerView({
-    map: map,
     position: base_position,
     content: new PinView({
       scale: scale,
@@ -287,6 +288,7 @@ async function init_map() {
     );
     google.maps.event.addListener(map, 'click', function () {
           content_div.classList.remove("show");
+
     });
 
   }
