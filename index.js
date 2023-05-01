@@ -122,13 +122,13 @@ const materialColors = [
 ];
 //load from api
 var locations = [
-  ["Sambil Caracas", 10.4917, -66.8567],
-  ["Chuao", 10.4801129, -66.8565273],
-  ["Líder", 10.4883, -66.8449],
-  ["Tolón Fashion Mall", 10.4917, -66.8537],
-  ["Centro Comercial El Recreo", 10.5058, -66.8602],
+  ["Los Proceres Caracas", 10.4729735, -66.9420263],
+  ['Monumenta', 10.4729735, -66.9220263],
+  ["Parada Bus ",10.4772885, -66.9517779],
+  ["Centro Comercial", 10.4831005, -66.9194113],
+
 ];
-var base_location = ["Caracas", 10.49, -66.85]; //load from api
+var base_location = ["Caracas", 10.4827267, -66.9145406]; //load from api
 
 function avg(locations) {
   var sum1 = 0;
@@ -192,18 +192,77 @@ async function init_map() {
       scale: scale,
     }).element,
   });
+  let content_div = document.querySelector(".content");
+  base_marker.addListener("click",()=>{
+    content = `<div class="circle">
+            <i class="fa-solid fa-location-dot"></i>
+          </div>
+          <span>Lorem ipsum dolor sit</span>
+          <div class="distance">
+            <div>
+              <i class="fa-regular fa-map" style="color: gray"></i>
+              <span style="padding-left: 5px">Hace instanlcs</span>
+            </div>
+           <div>${haversine_distance(base_marker, base_marker)} km</div>
+          </div>
+          <div class="circle-subsidio">
+            <div class="repeat">
+              <i class="fa-solid fa-repeat"></i>
+            </div>
+            <div class="title">Subsidio</div>
+          </div>
+          <div class="services">
+            <div class="service-title">
+              <div>
+                <span>Estada de la Estacion de Servicio</span>
+              </div>
+              <div
+                style="
+                  font-size: 30px;
+                  display: flex;
+                  justify-self: center;
+                  align-self: center;
+                  color: gray;
+                  cursor: pointer;
+                "
+              >
+                ...
+              </div>
+            </div>
+            <div class="service">
+              <div>
+                <i class="fa-regular fa-clock"></i>
+              </div>
+              <div class="rounded blue">Abierta</div>
+            </div>
+            <hr />
+            <div class="service">
+              <div>
+                <i class="fa-solid fa-truck-front"></i>
+              </div>
+              <div class="rounded gray">Cola Moderada</div>
+            </div>
+            <div class="service">
+              <div>
+                <i class="fa-solid fa-gas-pump"></i>
+              </div>
+              <div class="rounded blue">Tiena Combustible</div>
+            </div>
+          </div>`;
+          place.innerHTML = `<h1>${base_location[0]}</h1>`;
+          content_div.classList.add("show");
+          content_div.innerHTML = content;
+  })
   var infowindow = new google.maps.InfoWindow();
 
   var marker, i;
-  const baseColor =
-    materialColors[Math.floor(Math.random() * materialColors.length)];
+  const baseColor = "#2980b9";
 
   // Calculate the light and dark shades of the base color
   const lightShade = tinycolor(baseColor).lighten(30).toHexString();
   const darkShade = tinycolor(baseColor).darken(30).toHexString();
 
   for (i = 0; i < locations.length; i++) {
-    
 
     const pinViewStyle = new PinView({
       scale: scale,
@@ -221,7 +280,7 @@ async function init_map() {
       content: pinViewStyle.element,
     });
 
-    let content_div = document.querySelector(".content");
+    
     google.maps.event.addListener(
       marker,
       "click",
