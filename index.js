@@ -186,6 +186,7 @@ async function init_map() {
     mapId: "DEMO_MAP_ID",
   });
   let base_marker = new AdvancedMarkerView({
+    map:map,
     position: base_position,
     content: new PinView({
       scale: scale,
@@ -194,14 +195,15 @@ async function init_map() {
   var infowindow = new google.maps.InfoWindow();
 
   var marker, i;
+  const baseColor =
+    materialColors[Math.floor(Math.random() * materialColors.length)];
+
+  // Calculate the light and dark shades of the base color
+  const lightShade = tinycolor(baseColor).lighten(30).toHexString();
+  const darkShade = tinycolor(baseColor).darken(30).toHexString();
 
   for (i = 0; i < locations.length; i++) {
-    const baseColor =
-      materialColors[Math.floor(Math.random() * materialColors.length)];
-
-    // Calculate the light and dark shades of the base color
-    const lightShade = tinycolor(baseColor).lighten(30).toHexString();
-    const darkShade = tinycolor(baseColor).darken(30).toHexString();
+    
 
     const pinViewStyle = new PinView({
       scale: scale,
