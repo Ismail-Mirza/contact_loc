@@ -254,6 +254,9 @@ async function init_map() {
           content_div.innerHTML = content;
   })
   var infowindow = new google.maps.InfoWindow();
+  place.addEventListener("click",()=>{
+    content_div.classList.remove("show");
+  })
 
   var marker, i;
   const baseColor = "#2980b9";
